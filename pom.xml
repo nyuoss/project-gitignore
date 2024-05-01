@@ -16,6 +16,7 @@
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <maven.compiler.source>1.7</maven.compiler.source>
     <maven.compiler.target>1.7</maven.compiler.target>
+    <failsafe.plugin.version>2.22.2</failsafe.plugin.version>
   </properties>
 
   <dependencies>
@@ -37,9 +38,9 @@
         <version>3.21.2</version>
         <configuration>
           <linkXref>true</linkXref>
-          <inputEncoding>utf-8</inputEncoding>
+          <inputEncoding>UTF-8</inputEncoding>
           <minimumTokens>100</minimumTokens>
-          <targetJdk>1.5</targetJdk>
+          <targetJdk>1.7</targetJdk>
           <excludes>
             <exclude>**/*Bean.java</exclude>
             <exclude>**/generated/*.java</exclude>
@@ -86,10 +87,6 @@
           <version>3.8.0</version>
         </plugin>
         <plugin>
-          <artifactId>maven-surefire-plugin</artifactId>
-          <version>2.22.1</version>
-        </plugin>
-        <plugin>
           <artifactId>maven-jar-plugin</artifactId>
           <version>3.0.2</version>
         </plugin>
@@ -119,7 +116,7 @@
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-surefire-plugin</artifactId>
-          <version>2.22.2</version>
+          <version>${failsafe.plugin.version}</version>
           <configuration>
             <excludes>
               <exclude>**/IT*.java</exclude>
@@ -131,7 +128,7 @@
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-failsafe-plugin</artifactId>
-          <version>2.22.2</version>
+          <version>${failsafe.plugin.version}</version>
           <executions>
             <execution>
               <goals>
