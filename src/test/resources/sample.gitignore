@@ -3,7 +3,7 @@
 
 # Log file
 *.log
-!test_ignore.log
+!do_not_ignore_me.log
 # BlueJ files
 *.ctxt
 
