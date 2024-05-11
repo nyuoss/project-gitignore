@@ -3,19 +3,15 @@ package com.example.fs;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.Scanner;
 import java.util.logging.Logger;
 
 public class FileCreationHandler {
     private static final Logger logger = Logger.getLogger(FileCreationHandler.class.getName());
-    private Scanner scanner;
 
-    public FileCreationHandler(Scanner scanner) {
-
-        this.scanner = scanner;
+    public FileCreationHandler() {
     }
 
-    public Path handleFileCreation(Path defaultPath, String defaultFileName) throws IOException {
+    public Path handleFileCreation(Path defaultPath, String defaultFileName, boolean overwrite) throws IOException {
         logger.finest("Attempting to handle file creation for: " + defaultFileName);
         Path resultsPath = defaultPath.resolve("results");
         try {
@@ -30,7 +26,7 @@ public class FileCreationHandler {
 
         if (Files.exists(path)) {
             logger.warning("File already exists: " + path);
-            if (confirmOverwrite(defaultFileName)) {
+            if (overwrite) {
                 Files.deleteIfExists(path);
                 Files.createFile(path);
                 logger.info("File overwritten: " + path);
@@ -61,20 +57,20 @@ public class FileCreationHandler {
         return newPath;
     }
 
-    private boolean confirmOverwrite(String fileName) {
-        System.out.print(fileName + " file already exists. Do you want to overwrite it? (y/n): ");
-        while (true) {
-            String response = scanner.nextLine().trim().toLowerCase();
-            if (response.equals("y")) {
-                logger.finest("User confirmed to overwrite file: " + fileName);
-                return true;
-            } else if (response.equals("n")) {
-                logger.finest("User declined to overwrite file: " + fileName);
-                return false;
-            } else {
-                logger.warning("Invalid response received: " + response);
-                System.out.println("Invalid response. Please enter 'y' for yes or 'n' for no.");
-            }
-        }
-    }
+//    private boolean confirmOverwrite(String fileName) {
+//        System.out.print(fileName + " file already exists. Do you want to overwrite it? (y/n): ");
+//        while (true) {
+//            String response = scanner.nextLine().trim().toLowerCase();
+//            if (response.equals("y")) {
+//                logger.finest("User confirmed to overwrite file: " + fileName);
+//                return true;
+//            } else if (response.equals("n")) {
+//                logger.finest("User declined to overwrite file: " + fileName);
+//                return false;
+//            } else {
+//                logger.warning("Invalid response received: " + response);
+//                System.out.println("Invalid response. Please enter 'y' for yes or 'n' for no.");
+//            }
+//        }
+//    }
 }
