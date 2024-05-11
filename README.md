@@ -1,6 +1,6 @@
 # Gitignore Verifier Project
 
-## Overview
+## Overview (Project's purpose)
 The Gitignore Verifier is a powerful tool designed to enhance the visibility and management of file exclusion in projects using `.gitignore` rules. It traverses a specified directory structure, applies `.gitignore` rules, and generates detailed reports about the files it processes. This tool helps developers understand which files are ignored by `.gitignore` and why, making it invaluable for debugging and verifying `.gitignore` configurations.
 
 ## Features
@@ -17,13 +17,20 @@ To use the Gitignore Verifier, you need to provide paths to your `.gitignore` fi
 - Java 11 or higher
 - Maven (for dependency management and building the project)
 
+### Installation instructions
+Clone the repository to your local machine and build the project using Maven:
+```bash
+git clone https://github.com/nyuoss/project-gitignore.git
+cd gitignore-verifier
+```
+
 ### Building the Project
 To build the project, navigate to the project directory where the `pom.xml` file is located and run:
 
   ```bash
   mvn clean install package
   ```
-### Running the Tool
+### Running the Tool (Usage instructions)
 Compile and run the tool using the following commands:
    ```bash
   java -jar target/demo-1.0-SNAPSHOT.jar <path_to_gitignore> <start_directory> <results_directory> <overwrite_flag>
@@ -40,14 +47,16 @@ Parameters:
       java -jar target/demo-1.0-SNAPSHOT.jar /Users/yourusername/projects/myproject/.gitignore /Users/yourusername/projects/myproject /Users/yourusername/projects/myproject/results true
       ```
 
-
 ## Circle CI Build Status
 
 [![CircleCI](https://dl.circleci.com/status-badge/img/circleci/KYnFbY2qNNDLwRPNicQYzN/JCe2pdy1WyY4eU5bckY53j/tree/main.svg?style=svg&circle-token=2c19527cd3f0e1b351c32ad7862299196d120a5d)](https://dl.circleci.com/status-badge/redirect/circleci/KYnFbY2qNNDLwRPNicQYzN/JCe2pdy1WyY4eU5bckY53j/tree/main)
 
 
-## Contributing
+## Component Specification:
+Our repository is structured with two main components: the src directory containing all source code, and the test directory housing unit tests. These components interact to ensure code functionality and integrity.
 
+
+## Contribution guidelines
 Contributions are welcome! Please refer to `CONTRIBUTING.md` for contribution guidelines.
 
 
