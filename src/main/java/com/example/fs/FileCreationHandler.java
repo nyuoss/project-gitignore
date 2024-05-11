@@ -4,30 +4,43 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Scanner;
+import java.util.logging.Logger;
 
 public class FileCreationHandler {
+    private static final Logger logger = Logger.getLogger(FileCreationHandler.class.getName());
     private Scanner scanner;
 
     public FileCreationHandler(Scanner scanner) {
+
         this.scanner = scanner;
     }
 
     public Path handleFileCreation(Path defaultPath, String defaultFileName) throws IOException {
-
+        logger.finest("Attempting to handle file creation for: " + defaultFileName);
         Path resultsPath = defaultPath.resolve("results");
-        Files.createDirectories(resultsPath);
+        try {
+            Files.createDirectories(resultsPath);
+            logger.info("Directories created/verified at: " + resultsPath);
+        } catch (IOException e) {
+            logger.severe("Failed to create directories: " + resultsPath);
+            throw e;
+        }
 
         Path path = resultsPath.resolve(defaultFileName);
-        
+
         if (Files.exists(path)) {
+            logger.warning("File already exists: " + path);
             if (confirmOverwrite(defaultFileName)) {
                 Files.deleteIfExists(path);
                 Files.createFile(path);
+                logger.info("File overwritten: " + path);
             } else {
                 path = createNewVersionOfFile(path);
+                logger.info("New file version created: " + path);
             }
         } else {
             Files.createFile(path);
+            logger.info("New file version created: " + path);
         }
         return path;
     }
@@ -44,6 +57,7 @@ public class FileCreationHandler {
             counter++;
         }
         Files.createFile(newPath);
+        logger.finest("New version of file created: " + newPath);
         return newPath;
     }
 
@@ -52,10 +66,13 @@ public class FileCreationHandler {
         while (true) {
             String response = scanner.nextLine().trim().toLowerCase();
             if (response.equals("y")) {
+                logger.finest("User confirmed to overwrite file: " + fileName);
                 return true;
             } else if (response.equals("n")) {
+                logger.finest("User declined to overwrite file: " + fileName);
                 return false;
             } else {
+                logger.warning("Invalid response received: " + response);
                 System.out.println("Invalid response. Please enter 'y' for yes or 'n' for no.");
             }
         }

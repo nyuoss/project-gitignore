@@ -3,6 +3,7 @@ package com.example;
 import com.example.fs.FileCreationHandler;
 import com.example.fs.FileSystemWalker;
 import com.example.fs.PathInputHandler;
+
 import java.io.IOException;
 import java.nio.file.Path;
 import java.util.Scanner;
@@ -13,9 +14,9 @@ public class Main {
             PathInputHandler pathInputHandler = new PathInputHandler(scanner);
             FileCreationHandler fileCreationHandler = new FileCreationHandler(scanner);
 
-            Path gitignorePath = pathInputHandler.promptForGitignorePath("Enter the directory path for the .gitignore file or press 'Enter' to use the current directory:");
-            Path startPath = pathInputHandler.promptForPath("Enter the start directory path or press Enter to use the current directory:", true);
-            Path resultsDirectory = pathInputHandler.promptForPath("Enter the results directory or press Enter to use the 'results' folder in the current directory:", true);
+            Path gitignorePath = pathInputHandler.promptForGitignorePath("Enter the directory path for the .gitignore file or press 'Enter' to use the current directory: \n");
+            Path startPath = pathInputHandler.promptForPath("Enter the start directory path or press Enter to use the current directory: \n", true);
+            Path resultsDirectory = pathInputHandler.promptForPath("Enter the results directory or press Enter to use the 'results' folder in the current directory: \n", true);
 
             Path humanReadablePath = fileCreationHandler.handleFileCreation(resultsDirectory, "Human Readable Summary.txt");
             Path machineReadablePath = fileCreationHandler.handleFileCreation(resultsDirectory, "Machine Readable Summary.json");
