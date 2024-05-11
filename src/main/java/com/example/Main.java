@@ -2,24 +2,45 @@ package com.example;
 
 import com.example.fs.FileCreationHandler;
 import com.example.fs.FileSystemWalker;
-import com.example.fs.PathInputHandler;
 
 import java.io.IOException;
 import java.nio.file.Path;
-import java.util.Scanner;
+import java.nio.file.Paths;
 
 public class Main {
     public static void main(String[] args) {
-        try (Scanner scanner = new Scanner(System.in)) {
-            PathInputHandler pathInputHandler = new PathInputHandler(scanner);
-            FileCreationHandler fileCreationHandler = new FileCreationHandler(scanner);
+        try {
+            // Check if sufficient arguments are provided
+            if (args.length < 4) {
+                System.err.println("Usage: java -jar GitignoreVerifier.jar <gitignoreFilePath> <startDirectory> <resultsDirectory> <overwrite>");
+                return;
+            }
 
-            Path gitignorePath = pathInputHandler.promptForGitignorePath("Enter the directory path for the .gitignore file or press 'Enter' to use the current directory: \n");
-            Path startPath = pathInputHandler.promptForPath("Enter the start directory path or press Enter to use the current directory: \n", true);
-            Path resultsDirectory = pathInputHandler.promptForPath("Enter the results directory or press Enter to use the 'results' folder in the current directory: \n", true);
+            // Assuming args[0] is the direct path to the .gitignore file
+            Path gitignorePath = Paths.get(args[0]);
+            if (!gitignorePath.toFile().exists()) {
+                System.err.println("No .gitignore file found at specified path: " + gitignorePath);
+                return;
+            }
 
-            Path humanReadablePath = fileCreationHandler.handleFileCreation(resultsDirectory, "Human Readable Summary.txt");
-            Path machineReadablePath = fileCreationHandler.handleFileCreation(resultsDirectory, "Machine Readable Summary.json");
+            Path startPath = Paths.get(args[1]);
+            if (!startPath.toFile().isDirectory()) {
+                System.err.println("Start path is not a directory: " + startPath);
+                return;
+            }
+
+            Path resultsDirectory = Paths.get(args[2]);
+            if (!resultsDirectory.toFile().isDirectory()) {
+                System.err.println("Results directory path is not a directory: " + resultsDirectory);
+                return;
+            }
+
+            boolean overwrite = Boolean.parseBoolean(args[3]); // Parse the overwrite flag from command-line arguments
+
+            FileCreationHandler fileCreationHandler = new FileCreationHandler();
+
+            Path humanReadablePath = fileCreationHandler.handleFileCreation(resultsDirectory, "Human Readable Summary.txt", overwrite);
+            Path machineReadablePath = fileCreationHandler.handleFileCreation(resultsDirectory, "Machine Readable Summary.json", overwrite);
 
             FileSystemWalker walker = new FileSystemWalker(gitignorePath, humanReadablePath, machineReadablePath);
             walker.walkFileTree(startPath);
