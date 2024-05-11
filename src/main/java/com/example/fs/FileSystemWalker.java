@@ -1,5 +1,10 @@
 package com.example.fs;
 
+import com.example.rules.Rule;
+import com.example.rules.RuleResult;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.ObjectNode;
+
 import java.io.BufferedWriter;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -9,13 +14,10 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
-
-import com.example.rules.Rule;
-import com.example.rules.RuleResult;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.node.ObjectNode;
 
 public class FileSystemWalker {
     /**
@@ -47,6 +49,7 @@ public class FileSystemWalker {
     private Map<String, List<String>> conflicts = new HashMap<>();
     private long startTime;
     private long endTime;
+    private static final Logger LOGGER = Logger.getLogger(FileSystemWalker.class.getName());
 
     public FileSystemWalker(Path gitignorePath, Path humanReadablePath, Path machineReadablePath) {
         this.fileMatcher = new FileMatcher(gitignorePath);
@@ -63,36 +66,43 @@ public class FileSystemWalker {
         ObjectNode ignoredNode = indexesNode.putObject("ignoredFiles");
 
         try (Stream<Path> paths = Files.walk(startPath);
-                BufferedWriter writer = Files.newBufferedWriter(humanReadablePath, StandardOpenOption.CREATE,
-                        StandardOpenOption.TRUNCATE_EXISTING)) {
-            paths.forEach(path -> {
-                RuleResult result = fileMatcher.isIgnored(path);
-                String pathString = path.toString();
+             BufferedWriter writer = Files.newBufferedWriter(humanReadablePath, StandardOpenOption.CREATE, StandardOpenOption.TRUNCATE_EXISTING)) {
 
-                if (!result.isIgnored()) {
-                    includedFiles.add(pathString);
-                    includedNode.putObject(pathString).put("status", "INCLUDED");
-                } else {
-                    String ruleDetails = result.getMatchingRules().stream()
-                            .map(Rule::toString)
-                            .collect(Collectors.joining(", "));
-                    String formattedStatus = "[EXCLUDED by `" + ruleDetails + "`] ";
-                    ignoredFiles.add(formattedStatus + pathString);
-                    ignoredNode.putObject(pathString)
-                            .put("rule", ruleDetails)
-                            .put("status", formattedStatus);
+            paths.forEach(path -> processPath(path, includedNode, ignoredNode));
 
-                    if (result.getMatchingRules().size() > 1) {
-                        conflicts.put(pathString,
-                                result.getMatchingRules().stream().map(Rule::toString).collect(Collectors.toList()));
-                    }
-                }
-            });
             endTime = System.currentTimeMillis();
             writeHumanReadableSummary(writer);
             writeJsonSummary(rootNode, summaryNode);
         } catch (IOException e) {
-            System.err.println("Error walking the file system: " + e.getMessage());
+            LOGGER.log(Level.SEVERE, "Error walking the file system from start path: " + startPath, e);
+        }
+    }
+
+    private void processPath(Path path, ObjectNode includedNode, ObjectNode ignoredNode) {
+        RuleResult result = fileMatcher.isIgnored(path);
+        String pathString = path.toString();
+        try {
+            if (!result.isIgnored()) {
+                includedFiles.add(pathString);
+                includedNode.putObject(pathString).put("status", "INCLUDED");
+            } else {
+                handleIgnoredFiles(result, pathString, ignoredNode);
+            }
+        } catch (Exception e) {
+            LOGGER.log(Level.SEVERE, "Error processing file: " + pathString, e);
+        }
+    }
+
+    private void handleIgnoredFiles(RuleResult result, String pathString, ObjectNode ignoredNode) {
+        String ruleDetails = result.getMatchingRules().stream()
+                .map(Rule::toString)
+                .collect(Collectors.joining(", "));
+        String formattedStatus = "[EXCLUDED by `" + ruleDetails + "`] ";
+        ignoredFiles.add(formattedStatus + pathString);
+        ignoredNode.putObject(pathString).put("rule", ruleDetails).put("status", formattedStatus);
+
+        if (result.getMatchingRules().size() > 1) {
+            conflicts.put(pathString, result.getMatchingRules().stream().map(Rule::toString).collect(Collectors.toList()));
         }
     }
 
@@ -104,14 +114,22 @@ public class FileSystemWalker {
         writer.write("● Execution Time: " + ((endTime - startTime) / 1000.0) + " seconds\n\n");
 
         writer.write("Matched Files:\n");
-        for (String file : includedFiles) {
-            writer.write("● [INCLUDED] " + file + "\n");
-        }
+        includedFiles.forEach(file -> {
+            try {
+                writer.write("● [INCLUDED] " + file + "\n");
+            } catch (IOException e) {
+                LOGGER.log(Level.SEVERE, "Error writing included file info: " + file, e);
+            }
+        });
 
         writer.write("\nIgnored Files:\n");
-        for (String file : ignoredFiles) {
-            writer.write("● " + file + "\n");
-        }
+        ignoredFiles.forEach(file -> {
+            try {
+                writer.write("● " + file + "\n");
+            } catch (IOException e) {
+                LOGGER.log(Level.SEVERE, "Error writing ignored file info: " + file, e);
+            }
+        });
 
         if (!conflicts.isEmpty()) {
             writer.write("\nConflicts Detected:\n");
@@ -119,7 +137,7 @@ public class FileSystemWalker {
                 try {
                     writer.write("● " + file + " affected by conflicting rules: " + String.join(", ", rules) + "\n");
                 } catch (IOException e) {
-                    e.printStackTrace();
+                    LOGGER.log(Level.SEVERE, "Error writing conflict info for file: " + file, e);
                 }
             });
         } else {
@@ -127,16 +145,17 @@ public class FileSystemWalker {
         }
     }
 
-    private void writeJsonSummary(ObjectNode rootNode, ObjectNode summaryNode) throws IOException {
-        summaryNode.put("totalFilesProcessed", includedFiles.size() + ignoredFiles.size());
-        summaryNode.put("filesIncluded", includedFiles.size());
-        summaryNode.put("filesIgnored", ignoredFiles.size());
-        summaryNode.put("executionTime", ((endTime - startTime) / 1000.0) + " seconds");
-        summaryNode.put("conflictsDetected", conflicts.size());
+    private void writeJsonSummary(ObjectNode rootNode, ObjectNode summaryNode) {
+        try (BufferedWriter jsonWriter = Files.newBufferedWriter(machineReadablePath, StandardOpenOption.CREATE, StandardOpenOption.TRUNCATE_EXISTING)) {
+            summaryNode.put("totalFilesProcessed", includedFiles.size() + ignoredFiles.size());
+            summaryNode.put("filesIncluded", includedFiles.size());
+            summaryNode.put("filesIgnored", ignoredFiles.size());
+            summaryNode.put("executionTime", ((endTime - startTime) / 1000.0) + " seconds");
+            summaryNode.put("conflictsDetected", conflicts.size());
 
-        try (BufferedWriter jsonWriter = Files.newBufferedWriter(machineReadablePath, StandardOpenOption.CREATE,
-                StandardOpenOption.TRUNCATE_EXISTING)) {
             jsonWriter.write(mapper.writerWithDefaultPrettyPrinter().writeValueAsString(rootNode));
+        } catch (IOException e) {
+            LOGGER.log(Level.SEVERE, "Error writing JSON summary", e);
         }
     }
 }
