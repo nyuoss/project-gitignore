@@ -17,12 +17,30 @@ To use the Gitignore Verifier, you need to provide paths to your `.gitignore` fi
 - Java 11 or higher
 - Maven (for dependency management and building the project)
 
+### Building the Project
+To build the project, navigate to the project directory where the `pom.xml` file is located and run:
+
+  ```bash
+  mvn clean install package
+  ```
 ### Running the Tool
 Compile and run the tool using the following commands:
+   ```bash
+  java -jar target/demo-1.0-SNAPSHOT.jar <path_to_gitignore> <start_directory> <results_directory> <overwrite_flag>
+  ```
+Parameters:
+  - <path_to_gitignore>: The path to the .gitignore file.
+  - <start_directory>: The directory path where the file system traversal should start.
+  - <results_directory>: The directory where the output files will be saved.
+  - <overwrite_flag>: Boolean flag (true or false) indicating whether to overwrite existing files in the results directory.
 
-```bash
-mvn clean install
-```
+  Example Commands:
+  - Running with Overwrite Enabled
+       ```bash
+      java -jar target/demo-1.0-SNAPSHOT.jar /Users/yourusername/projects/myproject/.gitignore /Users/yourusername/projects/myproject /Users/yourusername/projects/myproject/results true
+      ```
+
+
 ## Circle CI Build Status
 
 [![CircleCI](https://dl.circleci.com/status-badge/img/circleci/KYnFbY2qNNDLwRPNicQYzN/JCe2pdy1WyY4eU5bckY53j/tree/main.svg?style=svg&circle-token=2c19527cd3f0e1b351c32ad7862299196d120a5d)](https://dl.circleci.com/status-badge/redirect/circleci/KYnFbY2qNNDLwRPNicQYzN/JCe2pdy1WyY4eU5bckY53j/tree/main)
