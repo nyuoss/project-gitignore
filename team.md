@@ -77,3 +77,18 @@
    - Proficient in Python, Java, PyQt5, and shell scripting. Strong foundation in using Git for version control and collaboration in software development projects.
 
 
+## Sky Achitoff - GitHub: [slachitoff](https://github.com/slachitoff)
+
+### Contributions
+
+1. **Enhanced Input Validation and Error Handling**
+   - Integrated dual execution modes (command-line and GUI). Extracted command-line processing logic into a separate method `processCommandLine`, and enhanced path validation via `validatePaths`.
+   - Improved error handling in the GUI by implementing visual and textual feedback for input validation errors.
+
+2. **Command-Line Interaction Tools**
+   - **PathInputHandler**: Developed to fetch user-specified paths for the `.gitignore` file and the starting directory.
+   - **FileCreationHandler**: Created to manage the generation of Human- and Machine-Readable outputs with options to overwrite previous outputs.
+
+3. **GUI Results Display Updates**
+   - Enhanced the GUI results display by integrating color-coding, which improves readability and overall user experience.
+
