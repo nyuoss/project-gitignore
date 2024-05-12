@@ -41,11 +41,11 @@ public class FileSystemWalker {
 
     private FileMatcher fileMatcher;
     private Path humanReadablePath;
-    Path machineReadablePath; // Path for JSON output
+    private Path machineReadablePath; // Path for JSON output
     private ObjectMapper mapper = new ObjectMapper();
 
-    List<String> includedFiles = new ArrayList<>();
-    List<String> ignoredFiles = new ArrayList<>();
+    private List<String> includedFiles = new ArrayList<>();
+    private List<String> ignoredFiles = new ArrayList<>();
     private Map<String, List<String>> conflicts = new HashMap<>();
     private long startTime;
     private long endTime;
@@ -57,7 +57,7 @@ public class FileSystemWalker {
         this.machineReadablePath = machineReadablePath;
     }
 
-    public void walkFileTree(Path startPath) throws IOException {
+    public void walkFileTree(Path startPath) {
         startTime = System.currentTimeMillis();
         ObjectNode rootNode = mapper.createObjectNode();
         ObjectNode summaryNode = rootNode.putObject("summary");
@@ -75,11 +75,10 @@ public class FileSystemWalker {
             writeJsonSummary(rootNode, summaryNode);
         } catch (IOException e) {
             LOGGER.log(Level.SEVERE, "Error walking the file system from start path: " + startPath, e);
-            throw e;
         }
     }
 
-    void processPath(Path path, ObjectNode includedNode, ObjectNode ignoredNode) {
+    private void processPath(Path path, ObjectNode includedNode, ObjectNode ignoredNode) {
         RuleResult result = fileMatcher.isIgnored(path);
         String pathString = path.toString();
         try {
@@ -91,11 +90,10 @@ public class FileSystemWalker {
             }
         } catch (Exception e) {
             LOGGER.log(Level.SEVERE, "Error processing file: " + pathString, e);
-            throw e;
         }
     }
 
-    void handleIgnoredFiles(RuleResult result, String pathString, ObjectNode ignoredNode) {
+    private void handleIgnoredFiles(RuleResult result, String pathString, ObjectNode ignoredNode) {
         String ruleDetails = result.getMatchingRules().stream()
                 .map(Rule::toString)
                 .collect(Collectors.joining(", "));
@@ -108,7 +106,7 @@ public class FileSystemWalker {
         }
     }
 
-    void writeHumanReadableSummary(BufferedWriter writer) throws IOException {
+    private void writeHumanReadableSummary(BufferedWriter writer) throws IOException {
         writer.write("Gitignore Verifier Summary:\n");
         writer.write("● Total Files Processed: " + (includedFiles.size() + ignoredFiles.size()) + "\n");
         writer.write("● Files Included for Tracking: " + includedFiles.size() + "\n");
@@ -147,7 +145,7 @@ public class FileSystemWalker {
         }
     }
 
-    void writeJsonSummary(ObjectNode rootNode, ObjectNode summaryNode) throws IOException {
+    private void writeJsonSummary(ObjectNode rootNode, ObjectNode summaryNode) {
         try (BufferedWriter jsonWriter = Files.newBufferedWriter(machineReadablePath, StandardOpenOption.CREATE, StandardOpenOption.TRUNCATE_EXISTING)) {
             summaryNode.put("totalFilesProcessed", includedFiles.size() + ignoredFiles.size());
             summaryNode.put("filesIncluded", includedFiles.size());
@@ -158,7 +156,6 @@ public class FileSystemWalker {
             jsonWriter.write(mapper.writerWithDefaultPrettyPrinter().writeValueAsString(rootNode));
         } catch (IOException e) {
             LOGGER.log(Level.SEVERE, "Error writing JSON summary", e);
-            throw e;
         }
     }
 }
