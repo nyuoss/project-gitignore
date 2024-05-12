@@ -1,11 +1,12 @@
 package com.example.gui;
 
-import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
+import javax.swing.*;
+import javax.swing.border.Border;
 
 public class GUI extends JFrame {
     private JTextField gitignorePathField;
@@ -109,11 +110,51 @@ public class GUI extends JFrame {
     }
 
     private void runTool(ActionEvent e) {
-        String gitignorePath = gitignorePathField.getText();
-        String startDir = startDirField.getText();
-        String resultsDir = resultsDirField.getText();
+        // Reset borders to default initially
+        resetBorders();
+
+        String gitignorePath = gitignorePathField.getText().trim();
+        String startDir = startDirField.getText().trim();
+        String resultsDir = resultsDirField.getText().trim();
         boolean overwrite = overwriteCheckbox.isSelected();
 
+        // Check if any fields are empty and set borders and focus
+        if (gitignorePath.isEmpty()) {
+            showError(gitignorePathField, "Please enter the path to the .gitignore file.");
+            return;
+        }
+
+        if (startDir.isEmpty()) {
+            showError(startDirField, "Please enter the start directory path.");
+            return;
+        }
+
+        if (resultsDir.isEmpty()) {
+            showError(resultsDirField, "Please enter the results directory path.");
+            return;
+        }
+
+        // Further validations for directory existence and correctness
+        File gitignoreFile = new File(gitignorePath);
+        File startDirectory = new File(startDir);
+        File resultsDirectory = new File(resultsDir);
+
+        if (!gitignoreFile.exists() || !gitignoreFile.isFile()) {
+            showError(gitignorePathField, "The specified .gitignore path does not point to a valid file.");
+            return;
+        }
+
+        if (!startDirectory.exists() || !startDirectory.isDirectory()) {
+            showError(startDirField, "The start directory path is not a valid directory.");
+            return;
+        }
+
+        if (!resultsDirectory.exists() || !resultsDirectory.isDirectory()) {
+            showError(resultsDirField, "The results directory path is not a valid directory.");
+            return;
+        }
+
+        // If all checks pass, run the command
         System.out.println("Running with parameters:");
         System.out.println("Gitignore path: " + gitignorePath);
         System.out.println("Start directory: " + startDir);
@@ -121,6 +162,21 @@ public class GUI extends JFrame {
         System.out.println("Overwrite: " + overwrite);
 
         runCommand(gitignorePath, startDir, resultsDir, overwrite);
+    }
+
+    // Helper method to show an error with red border and focus
+    private void showError(JTextField field, String message) {
+        JOptionPane.showMessageDialog(this, message, "Error", JOptionPane.ERROR_MESSAGE);
+        field.setBorder(BorderFactory.createLineBorder(Color.RED));
+        field.requestFocus();
+    }
+
+    // Resets the borders of all input fields to the default
+    private void resetBorders() {
+        Border defaultBorder = UIManager.getBorder("TextField.border");
+        gitignorePathField.setBorder(defaultBorder);
+        startDirField.setBorder(defaultBorder);
+        resultsDirField.setBorder(defaultBorder);
     }
 
     // You may want to add a method to execute your tool's logic here
