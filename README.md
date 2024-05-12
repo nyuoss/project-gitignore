@@ -3,6 +3,10 @@
 ## Overview (Project's purpose)
 The Gitignore Verifier is a powerful tool designed to enhance the visibility and management of file exclusion in projects using `.gitignore` rules. It traverses a specified directory structure, applies `.gitignore` rules, and generates detailed reports about the files it processes. This tool helps developers understand which files are ignored by `.gitignore` and why, making it invaluable for debugging and verifying `.gitignore` configurations.
 
+## Demonstration Video
+For a visual guide on how to set up and use the Gitignore Verifier tool, you can watch our demonstration video on YouTube. This video provides a step-by-step walkthrough of the installation process, how to use the tool both in command-line and GUI modes, and an explanation of the tool's features and outputs.
+https://www.youtube.com/watch?v=-GjeyMaRqIs
+
 ## Features
 - **File System Traversal**: Recursively walks through the file system starting from a specified root directory.
 - **Rule Application**: Utilizes `.gitignore` rules to determine whether files should be ignored.
@@ -30,8 +34,16 @@ To build the project, navigate to the project directory where the `pom.xml` file
   ```bash
   mvn clean install package
   ```
+This command will compile the source code, run the tests, and package the compiled code into a JAR file. 
+The resulting JAR file, target/demo-1.0-SNAPSHOT.jar, is what you will use to run the tool.
+
+**Note:** If you dont do this, you will encounter the message: 
+"Error: Unable to access jarfile target/demo-1.0-SNAPSHOT.jar"
+Please run this command again to ensure the jar to run the tool gets created to proceed.
+
 ### Running the Tool (Usage instructions)
-Compile and run the tool using the following commands:
+**Compilation and Execution**
+To compile and run the tool, use the following commands:
    ```bash
   java -jar target/demo-1.0-SNAPSHOT.jar <path_to_gitignore> <start_directory> <results_directory> <overwrite_flag>
   ```
@@ -47,25 +59,17 @@ Parameters:
       java -jar target/demo-1.0-SNAPSHOT.jar /Users/yourusername/projects/myproject/.gitignore /Users/yourusername/projects/myproject /Users/yourusername/projects/myproject/results true
       ```
 
-## Testing
-
-The Gitignore Verifier project employs a robust testing strategy to ensure the application functions as intended and is free from defects. Our testing framework utilizes JUnit 5 for both unit and integration testing, with Mockito for dependency mocking, ensuring comprehensive coverage and reliability of our codebase.
-
-### Unit Testing
-- Framework Used: JUnit 5
-- Mocking Framework: Mockito
-- Focus: Each class and method within the project is accompanied by unit tests that validate both the expected outcomes and error handling capabilities. For instance, the `FileMatcher` class has extensive tests to ensure `.gitignore` rules are parsed and applied correctly.
-- Execution: To run unit tests, navigate to the project directory and execute:
+**GUI Mode:**
+If no command line arguments are provided, the tool launches in GUI mode, providing a graphical interface for interaction:
   ```bash
-  mvn test
-  '''
+  java -jar target/demo-1.0-SNAPSHOT.jar
+  ```
+In this mode, users can interact with the GUI to input parameters and execute file system traversal visually.
 
+**Error Handling:**
+- If an invalid path is provided for the .gitignore file, start directory, or results directory, the tool will print an error message indicating the specific issue.
+- If fewer than the required four arguments are provided, the tool will display usage information and exit.
 
-To effectively document the testing approach used in the Gitignore Verifier project, we can outline the test strategies, frameworks, and types of tests performed. This detailed section will provide clarity on how testing is conducted, which is crucial for contributors, maintainers, and users who may want to verify the robustness of the application.
-
-Testing Section for Documentation
-markdown
-Copy code
 ## Testing
 
 The Gitignore Verifier project employs a robust testing strategy to ensure the application functions as intended and is free from defects. Our testing framework utilizes JUnit 5 for both unit and integration testing, with Mockito for dependency mocking, ensuring comprehensive coverage and reliability of our codebase.
@@ -74,8 +78,10 @@ The Gitignore Verifier project employs a robust testing strategy to ensure the a
 - Framework Used: JUnit 5
 - Mocking Framework: Mockito
 - Execution: To run unit tests, navigate to the project directory and execute:
+  
   ```bash
   mvn test
+  ```
   
 ### Integration Testing
   - Framework Used: JUnit 5
@@ -113,13 +119,18 @@ Please ensure your pull request adheres to the following guidelines:
 
 - **Title**: A brief, descriptive summary of your changes.
 - **Description**: Explain the changes you've made and why you've made them.
+- **Branch Naming**: Prefix the type of change in the branch name and/or select the option relevant:
+  - [ ] `chore/` This change requires a documentation update
+  - [ ] Bug fix `bugfix/` (non-breaking change which fixes an issue)
+  - [ ] New feature `feature/` (non-breaking change which adds functionality)
+  - [ ] Breaking change `fix/` (fix or feature that would cause existing functionality to not work as expected)
 - **Related Issue(s)**: Mention any issues that are related to these changes.
 - **Testing**: Detail the testing that was done to validate the changes.
 - **Checklist**:
   - [ ] I have performed a self-review of my own code.
   - [ ] I have added tests that prove my fix is effective or that my feature works.
 - **Screenshots/Output**: Include any relevant screenshots or output demonstrating the changes (if applicable).
-- **Additional Notes**: Any further comments or notes for the reviewers.
+- **Additional Notes**: Any further comments or notes for the reviewers.  
 
 ## LICENSE
 
