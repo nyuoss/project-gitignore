@@ -58,3 +58,22 @@
 
 4. **Review and Approval of Other Contributions**
    - Been active in reviewing and approving pull requests from other team members, ensuring that contributions are in line with project standards and objectives. His reviews help maintain high code quality and align new additions with the project's architectural and functional guidelines.
+
+
+## Utsav Sharma - GitHub: [utsav-sharma2020](https://github.com/utsav-sharma2020)
+
+### Contributions
+
+1. **GUI Helper Code**
+   - Developed a comprehensive suite of helper functions for graphical user interfaces, significantly streamlining the integration of frontend components with complex backend logic. Implemented in Python using PyQt5, this enhancement boosts the user experience by providing a responsive and intuitive interface.
+
+2. **File Creation Handling**
+   - Engineered robust file handling modules to facilitate file creation and manage command-line interactions. Developed in Java, these modules enhance the tool's usability by introducing more intuitive command-line options and error handling, catering to both novice and advanced users.
+
+3. **Contribution to Open Source**
+   - Actively contributed to several open-source projects, focusing on improving code efficiency and introducing new features. Notable contributions include optimizing performance bottlenecks and enhancing security protocols.
+
+4. **Technology Stack**
+   - Proficient in Python, Java, PyQt5, and shell scripting. Strong foundation in using Git for version control and collaboration in software development projects.
+
+
