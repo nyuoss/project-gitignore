@@ -31,7 +31,7 @@ public class Rule {
             regex.append("^");
         } else {
             // For non-rooted patterns, ensure they apply only at the directory level.
-            regex.append("^(?:.*/)?"); // Allow matching from the root or any subdirectory
+            regex.append("^(?:.*[/|\\\\])?"); // Allow matching from the root or any subdirectory
         }
 
         boolean inDirectoryPattern = false; // Track if we are inside a directory-specific pattern

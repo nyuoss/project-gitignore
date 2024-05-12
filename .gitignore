@@ -33,3 +33,6 @@ target/
 *.iml
 *.ipr
 *.DS_Store
+
+# Running results
+results/
