@@ -1,3 +1,5 @@
+package com.example.gui;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -8,7 +10,6 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 
-
 public class GUI extends JFrame {
     private JTextField gitignorePathField;
     private JTextField startDirField;
@@ -16,6 +17,7 @@ public class GUI extends JFrame {
     private JCheckBox overwriteCheckbox;
     private JButton runButton;
     private JButton cancelButton;
+    private JButton viewResultsButton;  // Button to view results
 
     public GUI() {
         createUI();
@@ -27,7 +29,7 @@ public class GUI extends JFrame {
         setLocationRelativeTo(null);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
 
-        setLayout(new GridLayout(5, 2, 10, 10));
+        setLayout(new GridLayout(6, 2, 10, 10));  // Adjusted for an additional row
 
         gitignorePathField = new JTextField();
         startDirField = new JTextField();
@@ -35,6 +37,7 @@ public class GUI extends JFrame {
         overwriteCheckbox = new JCheckBox("Overwrite existing files?");
         runButton = new JButton("Run");
         cancelButton = new JButton("Cancel");
+        viewResultsButton = new JButton("View Results");  // Initialize the new button
 
         add(new JLabel("Path to .gitignore:"));
         add(gitignorePathField);
@@ -46,9 +49,11 @@ public class GUI extends JFrame {
         add(overwriteCheckbox);
         add(runButton);
         add(cancelButton);
+        add(viewResultsButton);  // Add the new button to the com.example.gui.GUI
 
         runButton.addActionListener(this::runTool);
         cancelButton.addActionListener(e -> System.exit(0));
+        viewResultsButton.addActionListener(this::viewResults);  // Add an action listener to the new button
 
         pack();  // Fit the layout
     }
@@ -69,6 +74,12 @@ public class GUI extends JFrame {
         // You would replace this with the actual command to run your tool
         // Example: runCommand(gitignorePath, startDir, resultsDir, overwrite);
         runCommand(gitignorePath, startDir, resultsDir, overwrite);
+    }
+
+    private void viewResults(ActionEvent e) {
+        String resultsPath = resultsDirField.getText() + "/results/Human Readable Summary.txt";
+        ResultsDialog resultsDialog = new ResultsDialog(this, "View Results", true, resultsPath);
+        resultsDialog.setVisible(true);
     }
 
     public static void main(String[] args) {
