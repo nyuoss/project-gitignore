@@ -19,6 +19,7 @@ public class Main {
         } else {
             // Process command line arguments
             processCommandLine(args);
+
         }
     }
 
