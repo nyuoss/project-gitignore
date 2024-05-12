@@ -88,9 +88,9 @@ The Gitignore Verifier project employs a robust testing strategy to ensure the a
   - Focus: Integration tests are designed to test the interactions between components such as file system traversal, rule application, and report generation. These tests involve reading from actual .gitignore files and processing a directory structure to validate the entire workflow of the application.
   - Execution: Integration tests are executed alongside unit tests but can be distinguished by their annotations and setup requirements.
 
-## Circle CI Build Status
+## GitHub Actions Build Status
 
-[![CircleCI](https://dl.circleci.com/status-badge/img/circleci/KYnFbY2qNNDLwRPNicQYzN/JCe2pdy1WyY4eU5bckY53j/tree/main.svg?style=svg&circle-token=2c19527cd3f0e1b351c32ad7862299196d120a5d)](https://dl.circleci.com/status-badge/redirect/circleci/KYnFbY2qNNDLwRPNicQYzN/JCe2pdy1WyY4eU5bckY53j/tree/main)
+[![Actions Status](https://github.com/nyuoss/project-gitignore/workflows/Java%20CI/badge.svg)](https://github.com/nyuoss/project-gitignore/actions)
 
 
 ## Component Specification:
