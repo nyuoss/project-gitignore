@@ -1,0 +1,30 @@
+name: Java CI
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Set up JDK 17
+      uses: actions/setup-java@v2
+      with:
+        java-version: '17'
+        distribution: 'temurin'  # AdoptOpenJDK has been moved to Eclipse Temurin
+
+    - name: Build with Maven
+      run: mvn -B package --file pom.xml  # Ensures dependencies are downloaded and the package is built
+
+    - name: Run tests
+      run: mvn test  # Executes the test phase
+
+    - name: Run application
+      run: java -jar ./target/demo-1.0-SNAPSHOT.jar ./project-gitignore/.gitignore ./project-gitignore ./project-gitignore true
+      # Ensure paths are correct relative to GitHub Actions environment
