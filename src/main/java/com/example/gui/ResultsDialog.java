@@ -25,33 +25,42 @@ public class ResultsDialog extends JDialog {
     }
 
     private void initComponents(String filePath) {
-        // Set the size of the dialog
-//        setSize(600, 400);
-//        setLocationRelativeTo(getParent());
+        JTextPane textPane = new JTextPane();
+        textPane.setContentType("text/html"); // Set content type to HTML
+        textPane.setEditable(false); // Make it non-editable
 
-        // Create a text area to display the JSON content
-        JTextArea textArea = new JTextArea(15, 50);
-        textArea.setEditable(false); // Make the text area non-editable
+        JScrollPane scrollPane = new JScrollPane(textPane);
 
-        // Add a JScrollPane to make the text area scrollable
-        JScrollPane scrollPane = new JScrollPane(textArea);
-
-        // Read the JSON file and display it in the text area
         try {
             String content = new String(Files.readAllBytes(Paths.get(filePath)));
-            textArea.setText(content);
+            String styledContent = applyStyles(content); 
+            textPane.setText(styledContent);
         } catch (IOException e) {
-            textArea.setText("Failed to load the file: " + e.getMessage());
+            textPane.setText("<html><body style='color: red;'>Failed to load the file: " + e.getMessage() + "</body></html>");
         }
 
-        // Add the scroll pane to the content pane of the dialog
         getContentPane().add(scrollPane, BorderLayout.CENTER);
 
-        // Add a button to close the dialog
         JButton closeButton = new JButton("Close");
         closeButton.addActionListener(e -> dispose());
         JPanel buttonPanel = new JPanel();
         buttonPanel.add(closeButton);
         getContentPane().add(buttonPanel, BorderLayout.SOUTH);
     }
+
+    private String applyStyles(String content) {
+        StringBuilder styledContent = new StringBuilder("<html><body>");
+        String[] lines = content.split("\n");
+        for (String line : lines) {
+            line = line.replace("[INCLUDED]", "<span style='color: green;'>[INCLUDED]</span>");
+            line = line.replaceAll("\\[EXCLUDED by `Rule\\{pattern='[^']+?', isNegation=false\\}`\\]", "<span style='color: red;'>$0</span>");
+    
+            styledContent.append("<div>").append(line).append("</div>");
+        }
+
+        styledContent.append("</body></html>");
+    
+        return styledContent.toString();
+    }
 }
+
