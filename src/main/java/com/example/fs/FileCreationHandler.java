@@ -57,20 +57,4 @@ public class FileCreationHandler {
         return newPath;
     }
 
-//    private boolean confirmOverwrite(String fileName) {
-//        System.out.print(fileName + " file already exists. Do you want to overwrite it? (y/n): ");
-//        while (true) {
-//            String response = scanner.nextLine().trim().toLowerCase();
-//            if (response.equals("y")) {
-//                logger.finest("User confirmed to overwrite file: " + fileName);
-//                return true;
-//            } else if (response.equals("n")) {
-//                logger.finest("User declined to overwrite file: " + fileName);
-//                return false;
-//            } else {
-//                logger.warning("Invalid response received: " + response);
-//                System.out.println("Invalid response. Please enter 'y' for yes or 'n' for no.");
-//            }
-//        }
-//    }
 }
