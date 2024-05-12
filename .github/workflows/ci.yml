@@ -26,5 +26,5 @@ jobs:
       run: mvn test  # Executes the test phase
 
     - name: Run application
-      run: java -jar ./target/demo-1.0-SNAPSHOT.jar ../.gitignore ../project-gitignore ./project-gitignore/results true
+      run: java -jar ./target/demo-1.0-SNAPSHOT.jar ../project-gitignore/.gitignore ../project-gitignore ./project-gitignore/results true
 
