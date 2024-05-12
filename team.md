@@ -16,3 +16,29 @@
 
 4. **Documentation**
    - Authored the `README.md` file, providing a detailed description of the project, its usage, features, and setup instructions, thereby facilitating ease of use and understanding for new contributors and users.
+
+## Sashank RM - GitHub: [sash7410](https://github.com/sash7410)
+### Contributions
+1. **Upgraded Testing Framework**
+   - Upgraded to JUnit 5 and integrated Mockito for enhanced unit and integration testing, improving test coverage and robustness.
+
+2. **Enhanced CLI Argument Handling and JAR Execution**
+   - **CLI Argument Processing**: Refined the command-line interface in the Main class to handle input parameters more efficiently, allowing for better automation and usage flexibility.
+   - **JAR Execution Fixes**: Addressed and resolved the "no main manifest attribute" error by adjusting the Maven Shade Plugin configuration, ensuring that the JAR is executable with all necessary dependencies properly embedded.
+
+3. **Expanded Test Coverage**
+   - Developed comprehensive tests for FileSystemWalker and FileMatcher, significantly improving code coverage across core functionalities.
+
+4. **Improved Project Configuration and Maintenance**
+   - **Gitignore and POM File Updates** : Updated .gitignore to exclude system files and resolved Maven POM issues to enhance compatibility and maintainability.
+   - **Error Handling and Logging Improvements**: Enhanced error handling and logging mechanisms across multiple classes, improving the application’s stability and providing clearer runtime information.
+
+6. **Documentation and Quality Assurance**
+   - Enhanced project documentation and participated in code reviews to ensure high-quality code standards and maintainability.
+
+
+
+
+
+
+
