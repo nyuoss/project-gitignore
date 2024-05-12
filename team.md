@@ -35,8 +35,11 @@
    - **Gitignore and POM File Updates** : Updated .gitignore to exclude system files and resolved Maven POM issues to enhance compatibility and maintainability.
    - **Error Handling and Logging Improvements**: Enhanced error handling and logging mechanisms across multiple classes, improving the application’s stability and providing clearer runtime information.
 
-6. **Documentation and Quality Assurance**
+5. **Documentation and Quality Assurance**
    - Enhanced project documentation and participated in code reviews to ensure high-quality code standards and maintainability.
+
+6. **Integration of GitHub Actions**
+   - Implemented GitHub Actions for continuous integration to replace CircleCI, enhancing the efficiency and reliability of our development workflow.
 
 ## Tanmay Rathi - GitHub: [tanmayr71](https://github.com/tanmayr71)
 
