@@ -47,6 +47,41 @@ Parameters:
       java -jar target/demo-1.0-SNAPSHOT.jar /Users/yourusername/projects/myproject/.gitignore /Users/yourusername/projects/myproject /Users/yourusername/projects/myproject/results true
       ```
 
+## Testing
+
+The Gitignore Verifier project employs a robust testing strategy to ensure the application functions as intended and is free from defects. Our testing framework utilizes JUnit 5 for both unit and integration testing, with Mockito for dependency mocking, ensuring comprehensive coverage and reliability of our codebase.
+
+### Unit Testing
+- Framework Used: JUnit 5
+- Mocking Framework: Mockito
+- Focus: Each class and method within the project is accompanied by unit tests that validate both the expected outcomes and error handling capabilities. For instance, the `FileMatcher` class has extensive tests to ensure `.gitignore` rules are parsed and applied correctly.
+- Execution: To run unit tests, navigate to the project directory and execute:
+  ```bash
+  mvn test
+  '''
+
+
+To effectively document the testing approach used in the Gitignore Verifier project, we can outline the test strategies, frameworks, and types of tests performed. This detailed section will provide clarity on how testing is conducted, which is crucial for contributors, maintainers, and users who may want to verify the robustness of the application.
+
+Testing Section for Documentation
+markdown
+Copy code
+## Testing
+
+The Gitignore Verifier project employs a robust testing strategy to ensure the application functions as intended and is free from defects. Our testing framework utilizes JUnit 5 for both unit and integration testing, with Mockito for dependency mocking, ensuring comprehensive coverage and reliability of our codebase.
+
+### Unit Testing
+- Framework Used: JUnit 5
+- Mocking Framework: Mockito
+- Execution: To run unit tests, navigate to the project directory and execute:
+  ```bash
+  mvn test
+  
+### Integration Testing
+  - Framework Used: JUnit 5
+  - Focus: Integration tests are designed to test the interactions between components such as file system traversal, rule application, and report generation. These tests involve reading from actual .gitignore files and processing a directory structure to validate the entire workflow of the application.
+  - Execution: Integration tests are executed alongside unit tests but can be distinguished by their annotations and setup requirements.
+
 ## Circle CI Build Status
 
 [![CircleCI](https://dl.circleci.com/status-badge/img/circleci/KYnFbY2qNNDLwRPNicQYzN/JCe2pdy1WyY4eU5bckY53j/tree/main.svg?style=svg&circle-token=2c19527cd3f0e1b351c32ad7862299196d120a5d)](https://dl.circleci.com/status-badge/redirect/circleci/KYnFbY2qNNDLwRPNicQYzN/JCe2pdy1WyY4eU5bckY53j/tree/main)
