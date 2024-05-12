@@ -1,0 +1,17 @@
+{
+  "summary" : {
+    "totalFilesProcessed" : 1,
+    "filesIncluded" : 1,
+    "filesIgnored" : 0,
+    "executionTime" : "0.001 seconds",
+    "conflictsDetected" : 0
+  },
+  "indexes" : {
+    "includedFiles" : {
+      "/var/folders/7d/2v6xh03n0tv3rcj_z2tj89p00000gn/T/emptyTestDir10138846421874010379" : {
+        "status" : "INCLUDED"
+      }
+    },
+    "ignoredFiles" : { }
+  }
+}
