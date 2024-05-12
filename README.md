@@ -53,7 +53,7 @@ Parameters:
 
 
 ## Component Specification:
-Our repository is structured with two main components: the src directory containing all source code, and the test directory housing unit tests. These components interact to ensure code functionality and integrity.
+Our repository is structured with three main components: the src directory containing all source code, the test directory housing unit tests, and the gui directory for user interface related files and components. These components interact to ensure code functionality and integrity.
 
 
 ## Contribution guidelines
