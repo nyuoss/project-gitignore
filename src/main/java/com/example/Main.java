@@ -20,6 +20,7 @@ public class Main {
             // Process command line arguments
             processCommandLine(args);
         }
+
     }
 
     private static void processCommandLine(String[] args) {
