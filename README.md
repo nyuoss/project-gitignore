@@ -3,6 +3,10 @@
 ## Overview (Project's purpose)
 The Gitignore Verifier is a powerful tool designed to enhance the visibility and management of file exclusion in projects using `.gitignore` rules. It traverses a specified directory structure, applies `.gitignore` rules, and generates detailed reports about the files it processes. This tool helps developers understand which files are ignored by `.gitignore` and why, making it invaluable for debugging and verifying `.gitignore` configurations.
 
+## Demonstration Video
+For a visual guide on how to set up and use the Gitignore Verifier tool, you can watch our demonstration video on YouTube. This video provides a step-by-step walkthrough of the installation process, how to use the tool both in command-line and GUI modes, and an explanation of the tool's features and outputs.
+https://www.youtube.com/watch?v=-GjeyMaRqIs
+
 ## Features
 - **File System Traversal**: Recursively walks through the file system starting from a specified root directory.
 - **Rule Application**: Utilizes `.gitignore` rules to determine whether files should be ignored.
